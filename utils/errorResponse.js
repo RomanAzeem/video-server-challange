@@ -6,4 +6,4 @@ class ErrorResponse {
     Error.captureStackTrace(this, this.constructor);
   }
 }
-module.exports(ErrorResponse);
+module.exports = ErrorResponse;
