@@ -1,0 +1,24 @@
+{
+  "name": "video-server-challange",
+  "version": "1.0.0",
+  "description": "node-epxress crud video server challanged base",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RomanAzeem/video-server-challange.git"
+  },
+  "author": "Roman Azeem",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RomanAzeem/video-server-challange/issues"
+  },
+  "homepage": "https://github.com/RomanAzeem/video-server-challange#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  }
+}
