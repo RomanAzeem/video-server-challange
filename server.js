@@ -1,12 +1,22 @@
 const express = require('express');
 const errorHandler = require('./middleware/error');
-
+const dotenv = require('dotenv');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const cors = require('cors');
+const morgan = require('morgan');
 //Load env variables
 dotenv.config({ path: './config/config.env' });
 
 const app = express();
+
+//Body Parser
 app.use(express.json());
+
 app.use(errorHandler);
+
 // Set security headers
 app.use(helmet());
 
@@ -19,6 +29,7 @@ const limiter = rateLimit({
   max: 100,
 });
 app.use(limiter);
+
 // Prevent http param pollution
 app.use(hpp());
 
