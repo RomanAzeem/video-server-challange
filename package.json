@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/RomanAzeem/video-server-challange#readme",
   "dependencies": {
+    "chalk": "^4.1.0",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
@@ -30,5 +32,6 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "xss-clean": "^0.1.1"
-  }
+  },
+  "proxy": "http://localhost:3000/"
 }

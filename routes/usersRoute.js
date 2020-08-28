@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 //import all the controller from Users Controller
 const {
   get_all_Users,

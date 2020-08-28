@@ -18,7 +18,7 @@ exports.get_all_Users = asyncHandler(async (req, res, next) => {
 // @access    Public
 
 exports.get_single_User = asyncHandler(async (req, res, next) => {
-  const singleUser = await UserModel.find(req.params.id);
+  const singleUser = await UserModel.findById(req.params.id);
   res.status(200).json({
     success: true,
     data: singleUser,
