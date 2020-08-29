@@ -7,13 +7,12 @@ const User = require('../models/User');
 // @access    Public
 exports.register_User = asyncHandler(async (req, res, next) => {
   console.log();
-  const { name, password, token } = req.body;
+  const { name, password } = req.body;
 
   // Create user
   const user = await User.create({
     name,
     password,
-    token,
   });
 
   sendTokenResponse(user, 200, res);
@@ -35,6 +34,7 @@ exports.login_User = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse('Inavlid Credentials', 401));
   }
   const isPassMatch = await isUser.matchPassword(password);
+  console.log('password', password);
   if (!isPassMatch) {
     return next(new ErrorResponse('Inavlid Credentials', 401));
   }
@@ -48,25 +48,21 @@ exports.login_User = asyncHandler(async (req, res, next) => {
 // @route     PUT /api/auth/update
 // @access    Private
 exports.update_User = asyncHandler(async (req, res, next) => {
-  const updateFields = {
-    password: req.body.password,
-    token: req.body.password,
-  };
-  const updatUser = await User.findByIdAndUpdate(req.params.id, updateFields, {
-    new: true,
-    runValidators: true,
-  });
-  res.status(200).json({
-    success: true,
-    data: updatUser,
-  });
+  const user = await User.findById(req.user.id).select('+password');
+  console.log(user);
+  let password = req.body.password;
+
+  user.password = password;
+  await user.save();
+
+  sendTokenResponse(user, 200, res);
 });
 
 // @desc      Delete User
 // @route     DELETE /api/auth/:id
 // @access    Private
 exports.delete_User = asyncHandler(async (req, res, next) => {
-  await User.findByIdAndDelete(req.params.id);
+  await User.findByIdAndDelete(req.user.id);
   res.status(200).json({
     success: true,
     data: {},
