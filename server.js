@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-//app.use(errorHandler);
+//add errorHandler middleware;
 app.use(errorHandler);
 
 // Cookie parser
@@ -44,6 +44,16 @@ app.use(cookieParser());
 //Mount Routes
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+
+//Not Found Error Handler
+app.use((req, res, next) => {
+  return next(
+    res.status(404).json({
+      success: false,
+      message: 'Not Found',
+    })
+  );
+});
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () =>

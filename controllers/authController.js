@@ -24,19 +24,37 @@ exports.login_User = asyncHandler(async (req, res, next) => {
   const { name, password } = req.body;
   // Check if the fields are empty
   if (!name || !password) {
-    return next(new ErrorResponse('Please Provide Name and Password', 400));
+    return next(
+      res.status(400).json({
+        success: false,
+        message: 'Please Provide Name and Password',
+      })
+    );
+    //return next(new ErrorResponse('Please Provide Name and Password', 400));
   }
 
   //Check the User exist or not
   const isUser = await User.findOne({ name }).select('+password');
 
   if (!isUser) {
-    return next(new ErrorResponse('Inavlid Credentials', 401));
+    return next(
+      res.status(401).json({
+        success: false,
+        message: 'Inavlid Credentials',
+      })
+    );
+    //return next(new ErrorResponse('Inavlid Credentials', 401));
   }
   const isPassMatch = await isUser.matchPassword(password);
 
   if (!isPassMatch) {
-    return next(new ErrorResponse('Inavlid Credentials', 401));
+    return next(
+      res.status(401).json({
+        success: false,
+        message: 'Inavlid Credentials',
+      })
+    );
+    //return next(new ErrorResponse('Inavlid Credentials', 401));
   }
   sendTokenResponse(isUser, 200, res);
 });
@@ -62,6 +80,7 @@ exports.delete_User = asyncHandler(async (req, res, next) => {
   await User.findByIdAndDelete(req.user.id);
   res.status(200).json({
     success: true,
+    message: 'User Deleted Successfully',
     data: {},
   });
 });
