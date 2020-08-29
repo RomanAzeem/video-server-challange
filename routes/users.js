@@ -10,9 +10,9 @@ const {
 } = require('../controllers/usersController');
 
 //define all the routes for '/'
-router.get('/', get_all_Users);
+router.get('/all', get_all_Users);
 
 //difine all the routes for '/:id'
-router.get('/:id', get_single_User);
+router.get('/single', get_single_User);
 
 module.exports = router;

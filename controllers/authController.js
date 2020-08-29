@@ -14,7 +14,6 @@ exports.register_User = asyncHandler(async (req, res, next) => {
     name,
     password,
   });
-
   sendTokenResponse(user, 200, res);
 });
 
@@ -30,18 +29,16 @@ exports.login_User = asyncHandler(async (req, res, next) => {
 
   //Check the User exist or not
   const isUser = await User.findOne({ name }).select('+password');
+
   if (!isUser) {
     return next(new ErrorResponse('Inavlid Credentials', 401));
   }
   const isPassMatch = await isUser.matchPassword(password);
-  console.log('password', password);
+
   if (!isPassMatch) {
     return next(new ErrorResponse('Inavlid Credentials', 401));
   }
-  res.status(201).json({
-    success: true,
-    data: isUser,
-  });
+  sendTokenResponse(isUser, 200, res);
 });
 
 // @desc      Update User
