@@ -1,5 +1,6 @@
 const express = require('express');
 const errorHandler = require('./middleware/error');
+const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const colors = require('colors');
 const helmet = require('helmet');
@@ -18,19 +19,33 @@ dotenv.config({ path: './config/config.env' });
 connectDB();
 
 ///Load routes from routes directory
-const usersRoute = require('./routes/usersRoute');
+const users = require('./routes/users');
+const auth = require('./routes/auth');
 
 const app = express();
 
 //Body Parser
 app.use(express.json());
 
+//set ejs view engine
+app.set('view engine', 'ejs');
+
+//// Dev logging middleware
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
 //app.use(errorHandler);
+app.use(errorHandler);
+
+// Cookie parser
+app.use(cookieParser());
 
 //Mount Routes
-app.use('/api/users', usersRoute);
+app.use('/api/users', users);
+app.use('/api/auth', auth);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () =>
   console.log(`Server is runnig on port ${PORT}`)
 );
