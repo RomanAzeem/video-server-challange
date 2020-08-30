@@ -7,12 +7,16 @@ const router = express.Router();
 const {
   get_all_Users,
   get_single_User,
+  register_User,
 } = require('../controllers/usersController');
 
-//define all the routes for '/'
+//route for get all users '/'
 router.get('/all', get_all_Users);
 
-//difine all the routes for '/:id'
+//routes for get single user by name
 router.get('/single', get_single_User);
+
+//route for registering new user
+router.post('/register', register_User);
 
 module.exports = router;

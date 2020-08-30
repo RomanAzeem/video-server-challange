@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('./async');
-const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
 
 // Protect routes
@@ -27,7 +26,6 @@ exports.protect = asyncHandler(async (req, res, next) => {
         message: 'Not authorized to access this route',
       })
     );
-    //return next(new ErrorResponse('Not authorized to access this route', 401));
   }
 
   try {
@@ -44,6 +42,5 @@ exports.protect = asyncHandler(async (req, res, next) => {
         message: 'Not authorized to access this route',
       })
     );
-    //return next(new ErrorResponse('Not authorized to access this route', 401));
   }
 });

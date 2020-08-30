@@ -1,21 +1,5 @@
-const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const User = require('../models/User');
-
-// @desc      Register user
-// @route     POST /api/auth/register
-// @access    Public
-exports.register_User = asyncHandler(async (req, res, next) => {
-  console.log();
-  const { name, password } = req.body;
-
-  // Create user
-  const user = await User.create({
-    name,
-    password,
-  });
-  sendTokenResponse(user, 200, res);
-});
 
 // @desc      Login User
 // @route     POST  /api/auth/login
@@ -30,7 +14,6 @@ exports.login_User = asyncHandler(async (req, res, next) => {
         message: 'Please Provide Name and Password',
       })
     );
-    //return next(new ErrorResponse('Please Provide Name and Password', 400));
   }
 
   //Check the User exist or not
@@ -43,7 +26,6 @@ exports.login_User = asyncHandler(async (req, res, next) => {
         message: 'Inavlid Credentials',
       })
     );
-    //return next(new ErrorResponse('Inavlid Credentials', 401));
   }
   const isPassMatch = await isUser.matchPassword(password);
 
@@ -54,7 +36,6 @@ exports.login_User = asyncHandler(async (req, res, next) => {
         message: 'Inavlid Credentials',
       })
     );
-    //return next(new ErrorResponse('Inavlid Credentials', 401));
   }
   sendTokenResponse(isUser, 200, res);
 });
