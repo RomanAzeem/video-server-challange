@@ -29,14 +29,14 @@ exports.all_Room = asyncHandler(async (req, res, next) => {
 // @route    POST api/room/info
 // @access   Private Protected
 exports.search_Room = asyncHandler(async (req, res, next) => {
-  const host_user = req.body.name;
-  if (host_user != req.user.name) {
+  const host_user_name = req.body.name;
+  if (host_user_name != req.user.name) {
     res.status(200).json({
       success: false,
       message: 'User does not exist',
     });
   }
-  const user_in_Rooms = await Room.find({ host_user });
+  const user_in_Rooms = await Room.find({ host_user_name });
   res.status(200).json({
     success: true,
     data: user_in_Rooms,
