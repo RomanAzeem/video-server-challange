@@ -19,7 +19,7 @@ const { protect } = require('../middleware/auth');
 router.post('/info/:id', info_Room);
 router.get('/info', all_Room);
 router.get('/search', protect, search_Room);
-router.put('/change_host', protect, change_roomHost);
+router.put('/change_host/:id', protect, change_roomHost);
 router.post('/create', protect, create_Room);
 
 module.exports = router;

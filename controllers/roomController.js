@@ -85,21 +85,30 @@ exports.create_Room = asyncHandler(async (req, res, next) => {
 });
 
 // @desc     Change host with signed as host user
-// @route   PUT api/room/change-host
+// @route    PUT api/room/change-host
 // @access   priivate protected
 exports.change_roomHost = asyncHandler(async (req, res, next) => {
-  console.log('herer');
   const users = await User.find({ _id: { $nin: [req.user.id] } });
-  if (!users) {
-    res.status(400).json({
-      success: false,
-      message: 'No User Found',
-    });
-    res.status(200).json({
-      success: true,
-      data: users,
-    });
-  }
+
+  const newHost = users.filter((user) => user.name === req.body.host_name);
+
+  const fieldsToUpdate = {
+    host_user_id: newHost[0]._id,
+    host_user_name: newHost[0].name,
+  };
+
+  const roomWithUpdatedHost = await Room.findByIdAndUpdate(
+    req.params.id,
+    fieldsToUpdate,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  res.status(200).json({
+    success: true,
+    data: roomWithUpdatedHost,
+  });
 });
 
 // @desc     Join or Leave as signed current User
